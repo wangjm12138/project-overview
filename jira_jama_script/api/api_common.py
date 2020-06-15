@@ -17,6 +17,19 @@ import requests
 import json
 from datetime import datetime, timedelta
 
+
+class Requests:
+
+    def get(self,url,auth=None):
+        retry = 0
+        response = None
+        while retry < 5:
+            try:
+                response = requests.get(url, auth=auth)
+            except Exception as e:
+                retry = retry + 1
+        return response
+
 class api_calls:
     """ Common class for api calls """
 
@@ -25,6 +38,7 @@ class api_calls:
         self.base_url = base_url
         self.username = username
         self.password = password
+        self.requests = Requests()
 
     def getFilterId(self,project_id):
         """ Function used to get filter ID """
